@@ -1,0 +1,42 @@
+Nguyen, Ethan
+Mr. Kuszmaul
+AP Computer Science, Period 1
+21 March 2019
+
+Introduction:
+TestLogicalSentence, LogicalSentence, SubstitutableString, TruthAssignment, PropositionConstant, and Operation are all classes or interfaces 
+designed to work with logical sentences. TestLogicalSentence tests the functions of the other classes, LogicalSentence creates LogicalSentence
+objects and provides methods to modify them, SubstitutableString acts as a framework for LogicalSentence, TruthAssignemtn assigns truth values
+to the simple LogicalSentences, PropositionConstant acts as a possible placeholder for simple LogicalSentences, and Operation acts a helper class
+to assist in evaluating the LogicalSentences.
+
+Specification Fulfillmenet:
+The legal(String) method takes a string and returns either true if the string is a legal logical sentence or false if it is an illegal logical sentence.
+legal() exists in LogicalSentence as a static method and can be called in client classes through the public static wrapper method, isLegal(String).
+legal() also works with LogicalSentences containing parentheses and can check all logical sentence operators
+The evaluate(String, TruthAssignment) method takes a String representing a logical sentence and its truth values in the form of a TruthAssignment
+object. These arguments are then evaluated using the logical operators. evaluate(String, TruthAssignment) can also take logical sentences with parentheses.
+
+Code Structure for legal() and evaluate():
+For legal(), it first checks if the parentheses are balanced. If not, it returns false. Otherwise, it continues and strips away all of the logical sentence's
+parentheses. Then, it checks if the LogicalSentence is complex. complex() is a recursive function, meaning it calls itself. Essentially, complex splits
+the logical sentence into substrings at their operators and calls itself using those substrings as arguments. If the remaining string is simple, it returns
+true. If all the substring sections are legal, then legal overall evaluates to true.
+For evaluate(), it is similarly a recursive function. When there are parentheses, evaluate() splits the string into three substrings: one that starts from the
+beginning and ends at the start of the first parentheses, another that is the inside of the first inner-most parentheses, and a last substring that starts from
+the last closed parentheses and ends at the end of the string. The boolean evaluation of the first inner-most parentheses is stored as a string, either being
+represented as "true" or "false." Then, all three substrings are combined as a string to be evaluated. Operators are evaluated by using operator[], which stores
+Operation objects that store the operator functions and names. Whenever there is an operator, it splits the string into two substrings at the operator and then
+calls evaluate() on both of the substrings. These two evaluated substrings are enclosed in a operator[k].getFunction().apply(), which applies the logical sentence
+operation on the two evaluated substrings. When the string has been split up enough until it is simple, the truth value based on the TruthAssignemtn object is
+fetched and returned. Overall, the final result is a recursive evaluate() that can work with LogicalSentences and operators.
+
+Major Challenges:
+Working with the negation operator was a little tricky because it was a unary operator versus the usual binary operator. However, I got around it by
+evaluating it seperatly. There was also a slight issue with the implication operator because it is a directional operator, and my code did not account
+for that at first. The most persistent challenge was dealing with recursion. At the beginning where I had very little structure to my code, I got
+extremely strange errors that were hard to debug. 
+
+Acknowledgments:
+Chirstopher Kuszmaul - Helped me reformat the logical operators to be standarized as they are now. Also answered a handful of other questions.
+Jonathon Younquist - This fellow student gave me a test case that broke my code, so I fixed it. Now, my code is a little bit more robust because of him
